@@ -1,0 +1,42 @@
+Notes:
+======
+CLASSIC LOAD BALANCER
+-----------------------
+1. Create > Add Subnets (>2 AZ) > Add SG > Configure Health Check > Add Instance  > Tag > doesn
+2. Advanced configuration
+   - Stickness (app generated cookie stickness or LB generated cookie stickness)
+   - Cross Zone LB (default enable)
+   - Can add/edit Instance
+   - Can migrate to ALB
+3. HTTP/HTTPS or TCP
+
+
+APPLICATION LOAD BALANCER
+--------------------------
+1. Create > Internet / Internal > IPv4 / dualstack >  Add Subnet > Target group
+    Target group: Select > Type (IP, Instance, Lambda) > Proto (HTTP, HTTPS) > Port > Health Check > Add Instance
+
+2. IP based target group:
+   - Supports load balancing to VPC and on-premises resources.
+   - Facilitates routing to multiple IP addresses and network interfaces on the same instance.
+   - Offers flexibility with microservice based architectures, simplifying inter-application communication.
+
+3. Listner Condition
+   - Multiple rules (up to 100) to match condition based on SrcIP, Path, Http header, Http request method, Query string
+   - If match found Forward to: (Target Group), Redirect to (Target Group) Or Return fixed response
+
+4. You can route request to multiple application usings single ALB using above conditions (this is not possible with Classic ELB)
+5. Advance options
+    - WAF enable
+    - Global Acceleration 
+
+6. Target group 
+   - Stickness (at group level): 1 to 7 days you have option to apply stickness at app or LB level cookies
+   - Deregisteration delay
+   - Slow start duration
+
+NETWORK LOAD BALANCER
+---------------------
+1. Create > Internal or Internet facing (required pulic IP) > IPv4 or dualstack > Subnet assingment > Listner and routing (tg)
+2. Target group options are same as ALB
+3. Traffic types L4 - TCP, UDP, TCP_UDP

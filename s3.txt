@@ -1,0 +1,16 @@
+CLI guide:
+https://docs.aws.amazon.com/cli/latest/reference/s3/rm.html
+
+
+#delete single object
+aws s3 rm s3://mybucket/test2.txt
+
+#delete bucket
+aws s3 rb s3://mybucket
+
+#temp access by presign url 
+aws s3 presign s3://awsexamplebucket/test2.txt --expires-in 604800
+
+#sync local directory (folder) to S3
+aws s3 sync C:\Work\demoS3 s3://jubin1
+

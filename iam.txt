@@ -1,0 +1,101 @@
+NOTES
+-------------------
+1. IAM policy maintains 5 previous policy version, when 6th is created, user is presented with a choice to delete oldest or sepecific choice of version
+2. AWS CLI doesn't allow to delete bucket when versioning enabled. I didn't find any direct command to empty objects in the bucket
+   Note: The rm command delete last version only. On web there are ways to delete using script.
+3. Deny overrides all OR have the highest precedence
+   Example: Group G, has two users attached A and B;  A and B have same policy P which has Deny action for delete on specific    
+   bucket, and Group G has AdminAccess; if user A tries to delete object for that specific bucket it will be denied.
+
+
+Example-1:
+----------
+IAM policy to allow listing all buckets to all resources AND explicity 
+allows deleting objects for specific bucket. Policy doesn't allow to delete bucket itself.
+
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Sid": "Stmt1623608520996",
+            "Action": [
+                "s3:DeleteObject"
+            ],
+            "Effect": "Allow",
+            "Resource": "arn:aws:s3:::demo-mfa-delete-2021-jubin/*"
+        },
+        {
+            "Sid": "Stmt1623608561440",
+            "Action": [
+                "s3:ListBucket",
+                "s3:ListAllMyBuckets"
+            ],
+            "Effect": "Allow",
+            "Resource": "*"
+        }
+    ]
+}
+
+Example-2
+----------
+IAM policy to allow listing all buckets to all resource and it explicity 
+allows deleting object insside specific buckets. Policy also allows to delete bucket itself BUT from specific SrcIP only.
+
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Sid": "Stmt1623608520996",
+            "Action": [
+                "s3:DeleteObject",
+                "s3:DeleteBucket"
+            ],
+            "Effect": "Allow",
+            "Resource": [
+                "arn:aws:s3:::demo-mfa-delete-2021-jubin/*",
+                "arn:aws:s3:::demo-mfa-delete-2021-jubin"
+            ],
+            "Condition": {
+                "IpAddress": {
+                    "aws:SourceIp": "49.36.81.194"
+                }
+            }
+        },
+        {
+            "Sid": "Stmt1623608561440",
+            "Action": [
+                "s3:ListBucket",
+                "s3:ListAllMyBuckets"
+            ],
+            "Effect": "Allow",
+            "Resource": "*"
+        }
+    ]
+}
+
+Example-3:
+----------
+Limiting access to specific IP IpAddress
+
+IMP:Replace the IP address range in this example with an appropriate value for your use case before 
+using this policy. Otherwise, you will lose the ability to access your bucket.
+
+{
+  "Version": "2012-10-17",
+  "Id": "S3PolicyId1",
+  "Statement": [
+    {
+      "Sid": "IPAllow",
+      "Effect": "Deny",
+      "Principal": "*",
+      "Action": "s3:*",
+      "Resource": [
+	       "arn:aws:s3:::DOC-EXAMPLE-BUCKET",
+         "arn:aws:s3:::DOC-EXAMPLE-BUCKET/*"
+      ],
+      "Condition": {
+	 "NotIpAddress": {"aws:SourceIp": "54.240.143.0/24"}
+      }
+    }
+  ]
+}
