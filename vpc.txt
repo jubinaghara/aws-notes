@@ -1,0 +1,20 @@
+Notes:
+------
+1. When using public address space, all communication between instances and services hosted in AWS use 
+AWS's private network. Packets that originate from the AWS network with a destination on the AWS network 
+stay on the AWS global network, except traffic to or from AWS China Regions.
+2. 200 Subnets per VPC AND 5 Elatic IP Address per AWS account per region
+3. /28 and /16 in size CIDR and IPv6 has fized /56 CIDR
+4. Can expand VPC by adding non-overlapping 4 IPv4 IP ranges
+5. Cannot change primary interface IP for instance lifetime
+6. EIPs cannot be used for instance in private or NAT configured Subnets
+7. Security Group: works at instance level - stateful and only allow rule
+8. NACL: at subnet level with both allow and deny and stateless
+9. VPC flow logs => to monitor the network traffic
+10. Traffic Mirroring for content inspection (support all EC2 Nitro instances)
+11. Subnet doesn't span AZ
+12. You can attach or detach ENI while intance is running
+13. You can attach and detach secondary interfaces (eth1-ethn) on an EC2 instance, but you can’t detach the eth0 interface.
+14. Peering VPC must have non-overlapping IP ranges
+15. Transitive peering is not supported
+16. Security groups cannot be referenced across an Inter-Region VPC Peering connection.

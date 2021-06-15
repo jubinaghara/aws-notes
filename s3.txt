@@ -14,3 +14,13 @@ aws s3 presign s3://awsexamplebucket/test2.txt --expires-in 604800
 #sync local directory (folder) to S3
 aws s3 sync C:\Work\demoS3 s3://jubin1
 
+#S3 mfa delete protection
+- Can be enabled only using root account access id and secret
+- MFA must be enabled for the root account
+- Create MFA profile
+
+-enable
+aws s3api put-bucket-versioning --bucket demo-mfa-delete-2021-jubin --versioning-configuration Status=Enabled,MFADelete=Enabled --mfa "arn:aws:iam::590897886800:mfa/root-account-mfa-device 534614" --profile mfa-delete
+
+-disable
+aws s3api put-bucket-versioning --bucket demo-mfa-delete-2021-jubin --versioning-configuration Status=Enabled,MFADelete=Disabled --mfa "arn:aws:iam::590897886800:mfa/root-account-mfa-device 031351" --profile mfa-delete
