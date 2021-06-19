@@ -2,11 +2,11 @@
 ------------------------------------
 #!/bin/bash
 yum update -y
-yum install httpd
-echo "<h1>Hello - $(hostname -f)" > /var/www/html/index.html
-systemctl start httpd
-systemctl enable httpd
-
+yum install -y httpd
+systemctl start httpd.service
+systemctl enable httpd.service
+EC2_AVAIL_ZONE=$(curl -s http://169.254.169.254/latest/meta-data/placement/availability-zone)
+echo "<h1>Hello World from $(hostname -f) in AZ $EC2_AVAIL_ZONE </h1>" > /var/www/html/index.html
 
 
 2. Installing Cloud Watch Agent on Amazon Linux 2

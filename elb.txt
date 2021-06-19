@@ -1,5 +1,15 @@
 Notes:
 ======
+1. Expose single DNS
+2. Do regular health checks
+3. Provide SSL (HTTPS) termination for your websites
+4. Enforce stickiness with cookies
+5. HA accros mulitple AZs
+6. Seprate public traffic from private traffic
+7. Separate SG group for ELB (allowing traffic from Internet) and SG for EC2 allows traffic only from SG of ELB
+8. LB scale but not instantaneoulslyh - contact AWS for a "warm-up"
+
+
 CLASSIC LOAD BALANCER
 -----------------------
 1. Create > Add Subnets (>2 AZ) > Add SG > Configure Health Check > Add Instance  > Tag > doesn
@@ -9,10 +19,11 @@ CLASSIC LOAD BALANCER
    - Can add/edit Instance
    - Can migrate to ALB
 3. HTTP/HTTPS or TCP
+4. Cross zone load-balancing is enabled by default  (Can be disabled - No charges for inter AZ data)
+5. Support only on SSL Certificate
 
-
-APPLICATION LOAD BALANCER
---------------------------
+APPLICATION LOAD BALANCER (LAYER 7 ONLY)
+----------------------------------------
 1. Create > Internet / Internal > IPv4 / dualstack >  Add Subnet > Target group
     Target group: Select > Type (IP, Instance, Lambda) > Proto (HTTP, HTTPS) > Port > Health Check > Add Instance
 
@@ -30,13 +41,29 @@ APPLICATION LOAD BALANCER
     - WAF enable
     - Global Acceleration 
 
-6. Target group 
+6. Target groups
+   - Can be EC2
+   - Can be ECS tasks
+   - Can be Lambda function
+   - Can be IP address which allows routing traffic to on-premise datacenter
    - Stickness (at group level): 1 to 7 days you have option to apply stickness at app or LB level cookies
    - Deregisteration delay
    - Slow start duration
+
+7. True or original soruce will be inserted in X-Forwarded-Port and Proto headers (Ref PCAP in assest folder - "EC2-IngressTrafficFromALB")
+
+8. Cross zone load-balancing is Always on (Can't be disabled - No charges for inter AZ data)
+
+9. Supports multiple SSL certificates. Use SNI to make it work.
+
 
 NETWORK LOAD BALANCER
 ---------------------
 1. Create > Internal or Internet facing (required pulic IP) > IPv4 or dualstack > Subnet assingment > Listner and routing (tg)
 2. Target group options are same as ALB
 3. Traffic types L4 - TCP, UDP, TCP_UDP
+4. NLB has one static IP per AZ, and supports assigning Elastic IP (helpful for whitelisting specific IP)
+5. NLB are for extereme perfomance
+6. Enabling stickiness may bring imbalance to the load over the backend EC2 instance
+7. IMP: Cross zone load-balancing is disable by default (You pay inter AZ data if enabled)
+8. Supports multiple SSL certificates. Use SNI to make it work.

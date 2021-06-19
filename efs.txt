@@ -1,0 +1,20 @@
+NOTES:
+------
+1. Some times mount using DNS doesn't or it takes time to propogate; try using IP base mounting
+2. Ensure security group attached to EFS allows NFS (2029) traffic from EC2 instance SG
+3. Make sure you have added appropriate AZ in which EC2 are running 
+4. Each mount target is represented as a ENI (elastic network interface). You can attach single or multiple security groups 
+
+EC2:
+----
+1. Install dependencies - sudo yum install -y amazon-efs-utils
+2. Make mount directory - mkdir <directory name>
+3. Mount Target example: sudo mount -t nfs4 -o nfsvers=4.1,rsize=1048576,wsize=1048576,hard,timeo=600,retrans=2,noresvport 10.0.1.29:/ <directory name>
+4. Your are ready with the shared storage network
+
+Some handy linux commands
+--------------------------
+- sudo touch <filename>  [Created the file]
+- ll                     [Total files in the shared storage]
+
+

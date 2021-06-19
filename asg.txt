@@ -1,0 +1,19 @@
+Notes:
+========
+1. Scaling policies can be on CPU, Network and even custom metrics
+2. Uses Lauch config or template (new)
+3. To updaete an ASG, you must provide a new launch configuration / template
+4. IAM roles attaches to an ASG will get assigned to EC2 instance
+5. ASG automatically creates new instance when instance is marked as unhealthy
+6. If you ASG Group has Max capacity 1 and you have set scaling policy to add 2 units on some metric it will not work
+7. What happens when you delete ASG
+    - all instance created by ASG gets terminate
+    - ALB target group will deregister instances
+    - please note LB and Target group itself will not get deleted
+
+Install stress utility to test scaling policies
+------------------------------------------
+sudo amazon-linux-extras install epel -y
+sudo yum install -y stress
+
+

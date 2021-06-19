@@ -1,6 +1,6 @@
 CLI guide:
 https://docs.aws.amazon.com/cli/latest/reference/s3/rm.html
-
+https://github.com/aws/aws-cli/tree/develop/awscli/examples
 
 #delete single object
 aws s3 rm s3://mybucket/test2.txt
