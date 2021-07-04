@@ -1,0 +1,14 @@
+Notes:
+====================================
+1. Gep-Restrictions
+ - You can whitelist or black list coutries
+
+2. Origins and Groups
+ - First, add additional Buckets/Elastic Load balancer/etc to the Cloud Front distribution
+ - Second, create orging-group, select list of destination (selected above) and define the priority of the Origins. 
+   If the primary origing fails CloudFront will direct traffic to the secondary origin.
+-  Third, Under Behavior select the configured orgin group AND done.
+With above setting, CF will now redirect the request first to primary origin and if health is failed than origin will redirect to seconday origins.
+
+
+

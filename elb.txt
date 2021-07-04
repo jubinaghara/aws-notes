@@ -7,7 +7,7 @@ Notes:
 5. HA accros mulitple AZs
 6. Seprate public traffic from private traffic
 7. Separate SG group for ELB (allowing traffic from Internet) and SG for EC2 allows traffic only from SG of ELB
-8. LB scale but not instantaneoulslyh - contact AWS for a "warm-up"
+8. LB scale but not instantaneously - contact AWS for a "warm-up"
 
 
 CLASSIC LOAD BALANCER
